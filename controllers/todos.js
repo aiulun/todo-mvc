@@ -1,15 +1,19 @@
 const Todo = require('../models/Todo')
 
 module.exports = {
+    // getTodos method
     getTodos: async (req,res)=>{
         try{
+            // Based on the promise received from Todo model, use the find method
             const todoItems = await Todo.find()
+            // Count documents left to be done based on the promise received from Todo model
             const itemsLeft = await Todo.countDocuments({completed: false})
             res.render('todos.ejs', {todos: todoItems, left: itemsLeft})
         }catch(err){
             console.log(err)
         }
     },
+    // createTodo method
     createTodo: async (req, res)=>{
         try{
             await Todo.create({todo: req.body.todoItem, completed: false})
